@@ -9,14 +9,7 @@
         <input v-model.trim="user.phone" required class="border-b outline-none w-full py-5" type="tel" placeholder="Mobile Number" />
         <input v-model.trim="user.password" required class="border-b outline-none w-full py-4 mt-3" type="password" placeholder="Password" />
 
-        <div class="flex gap-3 justify-between w-full">
-          <div class="flex gap-3 justify-between w-full">
-            <div :class="`w-1/4 h-2 ${passwordStrength >= 1 ? 'bg-background-primary' : 'bg-background-disabled'}`"></div>
-            <div :class="`w-1/4 h-2 ${passwordStrength >= 2 ? 'bg-background-primary' : 'bg-background-disabled'}`"></div>
-            <div :class="`w-1/4 h-2 ${passwordStrength >= 3 ? 'bg-background-primary' : 'bg-background-disabled'}`"></div>
-            <div :class="`w-1/4 h-2 ${passwordStrength >= 4 ? 'bg-background-primary' : 'bg-background-disabled'}`"></div>
-          </div>
-        </div>
+        <PasswordStrengthVue :password="user.password" />
 
         <input v-model.trim="user.confirmPassword" required class="border-b outline-none w-full py-4 mt-3" type="password" placeholder="Confirm Password" />
 
@@ -34,13 +27,14 @@
 <script lang="ts">
 import ButtonVue from "../components/Button.vue";
 import { defineComponent } from "vue";
-import zxcvbn from "zxcvbn";
+import PasswordStrengthVue from "../components/PasswordStrength.vue";
 import { storeUsers, getUsers } from "../helper/auth"
 import type { User } from "../helper/auth";
 
 export default defineComponent({
   components: {
     ButtonVue,
+    PasswordStrengthVue
   },
   data() {
     return {
@@ -61,10 +55,6 @@ export default defineComponent({
     }
   },
   computed: {
-    passwordStrength() {
-      const result = zxcvbn(this.user.password);
-      return result.score;
-    },
     isFormValid() {
       return (
         this.user.fullName.length > 0 &&
