@@ -71,7 +71,7 @@ export default defineComponent({
       return emailRegex.test(email);
     },
     isValidPhoneNumber(phone:any) {
-      const phonePattern = /^\d{9}$/;
+      const phonePattern = /^\d{9,}$/;
       return phonePattern.test(phone);
     },
     handleClick() {
