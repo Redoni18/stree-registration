@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomePage.vue'
+import LoginView from "@/views/Login.vue"
+import RegisterView from "@/views/Register.vue"
 import * as auth from "../helper/auth"
 
 const router = createRouter({
@@ -8,35 +10,31 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
-      meta: {requiresAuth: true}
+      component: HomeView
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login.vue'),
-      meta: {requiresAuth: false}
+      component: LoginView
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/Register.vue'),
-      meta: {requiresAuth: false}
+      component: RegisterView
     },
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    const isAuthenticated = checkAuthentication();
-
-    if (isAuthenticated) {
-        next();
-    } else {
-        next('/login');
-    }
+  if (to.path === '/login' || to.path === '/register') {
+    next();
   } else {
-    next()
+    const isAuthenticated = checkAuthentication();
+    if (isAuthenticated) {
+      next();
+    } else {
+      next('/login');
+    }
   }
 
 });

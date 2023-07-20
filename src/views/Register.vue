@@ -1,6 +1,6 @@
 <template>
   <div class="register px-8 py-8">
-    <router-link to="/login" class="w-fit"><img src="../assets/arrow-left.svg" alt="back-to-login"></router-link>
+    <router-link to="/login" class="w-fit"><img loading="lazy" src="../assets/arrow-left.svg" alt="back-to-login"></router-link>
     <div>
       <h1 class="text-4xl mb-8 font-semibold">Register to Stree</h1>
       <form class="w-full flex flex-col gap-8" @submit.prevent="handleClick">
@@ -23,7 +23,7 @@
         <ButtonVue :disabled="!isFormValid" :title="'Register'" :type="'submit'" :customClass="'mt-4'" />
 
         <p class="w-full mt-2 text-center text-sm text-gray-400">
-          By registering you agree to <span class="text-red-primary">Terms & Conditions</span> and
+          By registering you agree to <span class="text-red-primary">Terms &amp; Conditions</span> and
           <span class="text-red-primary">Privacy Policy</span> of Stree
         </p>
       </form>
@@ -35,7 +35,8 @@
 import ButtonVue from "../components/Button.vue";
 import { defineComponent } from "vue";
 import zxcvbn from "zxcvbn";
-import { storeUsers, getUsers, User } from "../helper/auth"
+import { storeUsers, getUsers } from "../helper/auth"
+import type { User } from "../helper/auth";
 
 export default defineComponent({
   components: {
@@ -75,11 +76,11 @@ export default defineComponent({
     },
   },
   methods: {
-    isValidEmail(email) {
+    isValidEmail(email:string) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     },
-    isValidPhoneNumber(phone) {
+    isValidPhoneNumber(phone:any) {
       const phonePattern = /^\d{9,}$/;
       return phonePattern.test(phone);
     },

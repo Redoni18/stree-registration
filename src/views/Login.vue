@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <img src="../assets/logo.svg" alt="">
+    <img loading="lazy" src="../assets/logo.svg" alt="">
     <form class="w-full px-8" @submit.prevent="handleClick">
         <input v-model.trim="user.email" required type="email" class="border-b outline-none w-full py-4" placeholder="Email" />
         <input v-model.trim="user.password" required type="password" class="border-b outline-none w-full py-4 mt-6" placeholder="Password" />
@@ -15,7 +15,9 @@
 
 <script lang="ts">
 import ButtonVue from '../components/Button.vue';
-import { storeLoggedInUser, getUsers, User } from "../helper/auth"
+import { storeLoggedInUser, getUsers } from "../helper/auth"
+import type { User } from "../helper/auth";
+
 export default {
   components: { ButtonVue },
   data() {
@@ -43,7 +45,7 @@ export default {
     },
     handleClick() {
       const activeUser = this.allUsers.filter(
-        (user) => user.email === this.user.email && user.password === this.user.password
+        (user: User) => user.email === this.user.email && user.password === this.user.password
       );
 
       
